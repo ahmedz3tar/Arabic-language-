@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مشفر اللغة العربية</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f4f4f4;
+      direction: rtl;
+    }
+    textarea, input, button {
+      font-size: 16px;
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+    }
+    .result {
+      background: #fff;
+      padding: 15px;
+      margin-top: 15px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>مشفر اللغة العربية بالأرقام</h2>
+  <p>اكتب جملة بالعربي وسيتم تحويلها إلى أرقام مشفرة (أو العكس)</p>
+
+  <textarea id="input" rows="4" placeholder="اكتب الجملة هنا..."></textarea>
+
+  <button onclick="encrypt()">تشفير</button>
+  <button onclick="decrypt()">فك التشفير</button>
+
+  <div class="result" id="output"></div>
+
+  <script>
+    const cipherTable = {
+      'ا': '557', 'ب': '239', 'ت': '869', 'ث': '706', 'ج': '316', 'ح': '843',
+      'خ': '127', 'د': '122', 'ذ': '504', 'ر': '224', 'ز': '926', 'س': '971',
+      'ش': '271', 'ص': '839', 'ض': '404', 'ط': '689', 'ظ': '629', 'ع': '184',
+      'غ': '563', 'ف': '493', 'ق': '848', 'ك': '512', 'ل': '343', 'م': '647',
+      'ن': '506', 'ه': '902', 'و': '304', 'ي': '321'
+    };
+
+    const reverseTable = Object.fromEntries(
+      Object.entries(cipherTable).map(([key, value]) => [value, key])
+    );
+
+    function encrypt() {
+      const input = document.getElementById('input').value;
+      let output = '';
+      for (let char of input) {
+        if (char === ' ') {
+          output += ' / ';
+        } else if (cipherTable[char]) {
+          output += cipherTable[char] + ' ';
+        } else {
+          output += char + ' ';
+        }
+      }
+      document.getElementById('output').innerText = output.trim();
+    }
+
+    function decrypt() {
+      const input = document.getElementById('input').value.trim();
+      const parts = input.split(' ');
+      let output = '';
+      for (let part of parts) {
+        if (part === '/' || part === '') {
+          output += ' ';
+        } else if (reverseTable[part]) {
+          output += reverseTable[part];
+        } else {
+          output += part;
+        }
+      }
+      document.getElementById('output').innerText = output;
+    }
+  </script>
+
+</body>
+</html
